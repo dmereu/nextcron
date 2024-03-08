@@ -1,0 +1,38 @@
+<link href="https://fonts.cdnfonts.com/css/seven-segment" rel="stylesheet">
+
+<body>
+<p class="timer" id="demo"></p>
+</body>
+
+<style>
+body {
+  background-color: black;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer {
+	font-family: 'Courier New', monospace;
+	font-weight: bold;
+	font-size: 6em;
+	color: red;
+}
+</style>
+
+<script>
+var x = setInterval(function() {
+    var date = new Date();
+    var minute = date.getMinutes();
+    var nextEvenMinute = minute % 2 === 0 ? minute + 2 : minute + 1;
+    var evenMinute = new Date(date.setMinutes(nextEvenMinute));
+    evenMinute.setSeconds(0)
+    var now = new Date().getTime();
+	var distance = evenMinute - now;
+	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+	document.getElementById("demo").innerHTML = String(minutes).padStart(2, '0') + ":" + String(seconds).padStart(2, '0');
+	if (distance < 0) {clearInterval(x); document.getElementById("demo").innerHTML = "BOOM!";}
+}, 1000);
+</script>
